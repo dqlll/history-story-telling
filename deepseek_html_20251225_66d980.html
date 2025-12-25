@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>讲历史人物故事</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', '微软雅黑', sans-serif;
+        }
+        
+        body {
+            background-color: #f0f7ff;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 100, 200, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+        }
+        
+        h1 {
+            color: #2a5caa;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 2.8rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            padding-bottom: 15px;
+            border-bottom: 5px dotted #ffcc00;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.3rem;
+        }
+        
+        .browser-warning {
+            background-color: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .browser-warning h3 {
+            color: #856404;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .browser-warning ul {
+            padding-left: 20px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #856404;
+        }
+        
+        .browser-warning li {
+            margin-bottom: 8px;
+        }
+        
+        .browser-warning .browser-icons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+        }
+        
+        .browser-icons div {
+            text-align: center;
+            font-size: 1rem;
+        }
+        
+        .browser-icons i {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .chrome { color: #4285F4; }
+        .edge { color: #0078D7; }
+        .safari { color: #000000; }
+        
+        .ios-warning {
+            background-color: #e3f2fd;
+            border: 2px solid #2196F3;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            display: none;
+        }
+        
+        .ios-warning.show {
+            display: block;
+        }
+        
+        .ios-warning h3 {
+            color: #0d47a1;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .instruction-box {
+            background-color: #e6f2ff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 8px solid #2a5caa;
+        }
+        
+        .instruction-box h3 {
+            color: #2a5caa;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .instruction-box ul {
+            padding-left: 20px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .instruction-box li {
+            margin-bottom: 8px;
+        }
+        
+        .input-section {
+            margin-bottom: 30px;
+        }
+        
+        .input-label {
+            display: block;
+            font-size: 1.4rem;
+            color: #2a5caa;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .voice-input-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        #voiceInput {
+            width: 100%;
+            height: 200px;
+            padding: 20px;
+            font-size: 1.3rem;
+            border: 3px solid #a3d1ff;
+            border-radius: 15px;
+            resize: vertical;
+            background-color: #f9fdff;
+            line-height: 1.5;
+        }
+        
+        #voiceInput:focus {
+            outline: none;
+            border-color: #2a5caa;
+            box-shadow: 0 0 0 3px rgba(42, 92, 170, 0.2);
+        }
+        
+        .mic-icon {
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            font-size: 1.8rem;
+            color: #2a5caa;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+        
+        .mic-icon:hover {
+            color: #ff9900;
+            transform: scale(1.1);
+        }
+        
+        .mic-icon.recording {
+            color: #ff3333;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .mic-icon.disabled {
+            color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .simulate-voice-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+        
+        .simulate-voice-btn:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+        }
+        
+        .simulate-voice-btn i {
+            margin-right: 8px;
+        }
+        
+        .timer-container {
+            text-align: center;
+            margin: 15px 0;
+            padding: 15px;
+            background-color: #fff8e1;
+            border-radius: 15px;
+            border: 2px solid #ffcc00;
+            display: none;
+        }
+        
+        .timer-title {
+            font-size: 1.2rem;
+            color: #ff9800;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .timer {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ff5722;
+            margin: 10px 0;
+        }
+        
+        .timer.warning {
+            color: #ff3333;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .time-up-message {
+            background-color: #ffebee;
+            color: #d32f2f;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 10px;
+            font-weight: bold;
+            display: none;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.4rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        #submitBtn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        #submitBtn:hover {
+            background-color: #3d8b40;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+        }
+        
+        #resetBtn {
+            background-color: #ff9800;
+            color: white;
+        }
+        
+        #resetBtn:hover {
+            background-color: #e68900;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+        }
+        
+        .result-section {
+            display: none;
+            background-color: #f9fdff;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            border: 3px solid #a3d1ff;
+        }
+        
+        .result-title {
+            color: #2a5caa;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .evaluation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        @media (max-width: 600px) {
+            .evaluation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .evaluation-item {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .evaluation-item h3 {
+            color: #2a5caa;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .stars {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .star {
+            font-size: 2rem;
+            color: #ddd;
+        }
+        
+        .star.filled {
+            color: #ffcc00;
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed #a3d1ff;
+        }
+        
+        .feedback h3 {
+            color: #2a5caa;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .feedback-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff9e6;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 5px solid #ffcc00;
+        }
+        
+        .history-person {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 1.2rem;
+            color: #666;
+        }
+        
+        .history-person span {
+            color: #2a5caa;
+            font-weight: bold;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .success-message {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.2rem;
+            display: none;
+        }
+        
+        .progress-bar-container {
+            width: 100%;
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+            display: none;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: #4CAF50;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        .permission-message {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+            border: 1px solid #bee5eb;
+        }
+        
+        .permission-message.show {
+            display: block;
+        }
+        
+        .ios-fallback {
+            background-color: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .ios-fallback.show {
+            display: block;
+        }
+        
+        .ios-fallback h3 {
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .ios-fallback p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>讲历史人物故事</h1>
+        <div class="subtitle">限时2分钟，用你的声音讲述历史故事，获得星星评价和建议</div>
+        
+        <div class="browser-warning">
+            <h3><i class="fas fa-exclamation-triangle"></i> 最佳使用建议</h3>
+            <ul>
+                <li><strong>电脑端</strong>：推荐使用Chrome或Edge浏览器</li>
+                <li><strong>手机/平板</strong>：安卓设备使用Chrome，iOS设备请仔细阅读下方提示</li>
+                <li>首次使用需要允许麦克风权限</li>
+            </ul>
+        </div>
+        
+        <div class="ios-warning" id="iosWarning">
+            <h3><i class="fas fa-mobile-alt"></i> iOS设备使用提示</h3>
+            <p>iOS系统上的Safari浏览器对语音识别功能有一定限制：</p>
+            <ul>
+                <li>语音识别可能需要手动触发（点击麦克风按钮后需要点击开始）</li>
+                <li>连续录音时间可能有限制</li>
+                <li>建议使用<strong>Chrome for iOS</strong>或<strong>Edge for iOS</strong>获得更好体验</li>
+            </ul>
+            <p>如果遇到问题，您可以直接在文本框中输入故事，或使用"模拟语音输入"功能。</p>
+        </div>
+        
+        <div class="error-message" id="errorMessage">
+            <i class="fas fa-exclamation-circle"></i> <span id="errorText">语音识别出现错误，请尝试直接输入故事。</span>
+        </div>
+        
+        <div class="permission-message" id="permissionMessage">
+            <i class="fas fa-microphone"></i> <span id="permissionText">需要麦克风权限才能使用语音输入功能。</span>
+        </div>
+        
+        <div class="ios-fallback" id="iosFallback">
+            <h3><i class="fas fa-info-circle"></i> iOS语音输入替代方案</h3>
+            <p>由于iOS Safari的限制，您可以使用以下方法：</p>
+            <ol>
+                <li>点击下方"开始iOS语音输入"按钮</li>
+                <li>使用设备自带的语音输入（点击文本框，出现键盘后使用麦克风图标）</li>
+                <li>或者直接输入故事内容</li>
+            </ol>
+            <button class="simulate-voice-btn" id="startIosRecording">
+                <i class="fas fa-microphone"></i> 开始iOS语音输入（手动控制）
+            </button>
+        </div>
+        
+        <div class="instruction-box">
+            <h3><i class="fas fa-lightbulb"></i> 使用说明：</h3>
+            <ul>
+                <li>点击麦克风图标开始语音输入，限时2分钟自动结束</li>
+                <li>如果语音识别不可用，您可以直接在文本框中输入故事</li>
+                <li>或者点击"模拟语音输入"按钮使用示例故事进行练习</li>
+                <li>时间到后自动提交并评价，也可以提前点击"提交"</li>
+            </ul>
+            <button class="simulate-voice-btn" id="simulateVoiceBtn">
+                <i class="fas fa-play-circle"></i> 模拟语音输入（示例故事）
+            </button>
+        </div>
+        
+        <div class="success-message" id="successMessage">
+            <i class="fas fa-check-circle"></i> 故事提交成功！正在生成评价...
+        </div>
+        
+        <div class="input-section">
+            <label class="input-label"><i class="fas fa-microphone"></i> 请讲述一个历史人物故事（限时2分钟）：</label>
+            
+            <div class="timer-container" id="timerContainer">
+                <div class="timer-title"><i class="fas fa-clock"></i> 剩余时间</div>
+                <div class="timer" id="timer">02:00</div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="time-up-message" id="timeUpMessage">
+                    <i class="fas fa-exclamation-triangle"></i> 时间到！已自动提交您的故事
+                </div>
+            </div>
+            
+            <div class="voice-input-container">
+                <textarea id="voiceInput" placeholder="点击右侧麦克风开始录音（限时2分钟），或直接在这里输入故事..."></textarea>
+                <div class="mic-icon" id="micIcon" title="点击开始/停止录音">
+                    <i class="fas fa-microphone"></i>
+                </div>
+            </div>
+            
+            <div class="history-person">
+                例如：<span>诸葛亮、岳飞、花木兰、孔子、郑和、李白</span>等历史人物
+            </div>
+        </div>
+        
+        <div class="buttons">
+            <button class="btn" id="submitBtn">
+                <i class="fas fa-paper-plane"></i> 提交故事
+            </button>
+            <button class="btn" id="resetBtn">
+                <i class="fas fa-redo"></i> 重置
+            </button>
+        </div>
+        
+        <div class="result-section" id="resultSection">
+            <h2 class="result-title"><i class="fas fa-star"></i> 老师评价</h2>
+            
+            <div class="evaluation-grid">
+                <div class="evaluation-item">
+                    <h3>故事按顺序讲完整</h3>
+                    <div class="stars" id="completenessStars">
+                        <!-- 星星将通过JavaScript动态生成 -->
+                    </div>
+                    <p>评价故事的完整性，是否有开头、经过和结尾</p>
+                </div>
+                
+                <div class="evaluation-item">
+                    <h3>语言生动有趣</h3>
+                    <div class="stars" id="languageStars">
+                        <!-- 星星将通过JavaScript动态生成 -->
+                    </div>
+                    <p>评价语言是否生动形象，能否吸引听众</p>
+                </div>
+            </div>
+            
+            <div class="feedback">
+                <h3><i class="fas fa-comment-dots"></i> 老师建议</h3>
+                <div class="feedback-text" id="feedbackText">
+                    <!-- 反馈将通过JavaScript动态生成 -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>四年级语文课 - 历史人物故事讲述练习</p>
+            <p>© 2023 小学语文教学助手</p>
+        </div>
+    </div>
+
+    <script>
+        // DOM元素
+        const voiceInput = document.getElementById('voiceInput');
+        const micIcon = document.getElementById('micIcon');
+        const submitBtn = document.getElementById('submitBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const resultSection = document.getElementById('resultSection');
+        const completenessStars = document.getElementById('completenessStars');
+        const languageStars = document.getElementById('languageStars');
+        const feedbackText = document.getElementById('feedbackText');
+        const successMessage = document.getElementById('successMessage');
+        const timerContainer = document.getElementById('timerContainer');
+        const timer = document.getElementById('timer');
+        const timeUpMessage = document.getElementById('timeUpMessage');
+        const progressBar = document.getElementById('progressBar');
+        const progressBarContainer = document.querySelector('.progress-bar-container');
+        const browserWarning = document.getElementById('browserWarning');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+        const simulateVoiceBtn = document.getElementById('simulateVoiceBtn');
+        const permissionMessage = document.getElementById('permissionMessage');
+        const permissionText = document.getElementById('permissionText');
+        const iosWarning = document.getElementById('iosWarning');
+        const iosFallback = document.getElementById('iosFallback');
+        const startIosRecording = document.getElementById('startIosRecording');
+        
+        // 系统检测变量
+        let isIOS = false;
+        let isChrome = false;
+        let isSafari = false;
+        
+        // 计时相关变量
+        let countdownInterval = null;
+        let timeLeft = 120; // 2分钟，单位：秒
+        let isTimeUp = false;
+        let isAutoSubmitted = false;
+        
+        // 语音识别变量
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let recognition = null;
+        let isRecording = false;
+        let isSpeechSupported = false;
+        let permissionGranted = false;
+        let isManualRecording = false; // 手动录音模式（针对iOS）
+        
+        // 检测设备和浏览器
+        function detectDeviceAndBrowser() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            
+            // 检测iOS
+            isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+            
+            // 检测浏览器
+            isChrome = /Chrome/.test(userAgent) && /Google Inc/.test(navigator.vendor);
+            isSafari = /Safari/.test(userAgent) && /Apple Computer/.test(navigator.vendor) && !isChrome;
+            
+            // 显示iOS警告
+            if (isIOS) {
+                iosWarning.classList.add('show');
+                iosFallback.classList.add('show');
+            }
+            
+            console.log('设备检测:', { isIOS, isChrome, isSafari, userAgent });
+        }
+        
+        // 检查浏览器兼容性
+        function checkBrowserCompatibility() {
+            if (!SpeechRecognition) {
+                // 不支持语音识别
+                micIcon.classList.add('disabled');
+                micIcon.title = "您的浏览器不支持语音识别，请直接输入故事";
+                isSpeechSupported = false;
+                
+                permissionText.textContent = "您的浏览器不支持语音识别功能。";
+                permissionMessage.classList.add('show');
+                
+                return false;
+            }
+            
+            isSpeechSupported = true;
+            return true;
+        }
+        
+        // 初始化语音识别
+        function initSpeechRecognition() {
+            if (!SpeechRecognition) return;
+            
+            try {
+                recognition = new SpeechRecognition();
+                recognition.lang = 'zh-CN';
+                recognition.interimResults = false;
+                recognition.continuous = true; // 改为连续模式，减少重新请求
+                
+                // iOS Safari需要特殊处理
+                if (isIOS && isSafari) {
+                    recognition.continuous = false; // iOS Safari不支持连续模式
+                    recognition.interimResults = true;
+                }
+                
+                recognition.onresult = function(event) {
+                    let transcript = '';
+                    for (let i = event.resultIndex; i < event.results.length; i++) {
+                        if (event.results[i].isFinal) {
+                            transcript += event.results[i][0].transcript;
+                        } else {
+                            transcript += event.results[i][0].transcript;
+                        }
+                    }
+                    
+                    if (transcript.trim()) {
+                        voiceInput.value += transcript + ' ';
+                    }
+                    
+                    // 隐藏错误消息
+                    errorMessage.classList.remove('show');
+                };
+                
+                recognition.onerror = function(event) {
+                    console.error('语音识别错误:', event.error);
+                    
+                    // 显示友好的错误消息
+                    let errorMsg = '语音识别出现错误，请尝试直接输入故事。';
+                    
+                    switch(event.error) {
+                        case 'not-allowed':
+                        case 'permission-denied':
+                            errorMsg = '麦克风权限被拒绝。请允许麦克风权限，或直接输入故事。';
+                            permissionGranted = false;
+                            break;
+                        case 'no-speech':
+                            errorMsg = '没有检测到语音，请确保麦克风正常工作。';
+                            break;
+                        case 'audio-capture':
+                            errorMsg = '没有找到麦克风设备，请检查麦克风连接。';
+                            break;
+                        case 'network':
+                            errorMsg = '网络错误，语音识别服务不可用。';
+                            break;
+                        case 'aborted':
+                            // 用户手动停止，不算错误
+                            return;
+                    }
+                    
+                    errorText.textContent = errorMsg;
+                    errorMessage.classList.add('show');
+                    
+                    stopRecording();
+                };
+                
+                recognition.onend = function() {
+                    // 如果不是手动停止且没有超时，重新开始（针对非iOS设备）
+                    if (isRecording && !isTimeUp && !isIOS && !isManualRecording) {
+                        setTimeout(() => {
+                            if (isRecording && !isTimeUp) {
+                                try {
+                                    recognition.start();
+                                } catch(e) {
+                                    console.error('重新开始录音失败:', e);
+                                    stopRecording();
+                                }
+                            }
+                        }, 100);
+                    } else {
+                        // 停止录音
+                        isRecording = false;
+                        micIcon.classList.remove('recording');
+                        micIcon.innerHTML = '<i class="fas fa-microphone"></i>';
+                        
+                        // 如果是时间到了自动停止，自动提交
+                        if (isTimeUp && !isAutoSubmitted) {
+                            isAutoSubmitted = true;
+                            setTimeout(() => {
+                                submitStory();
+                            }, 500);
+                        }
+                    }
+                };
+                
+                return true;
+            } catch(e) {
+                console.error('初始化语音识别失败:', e);
+                micIcon.classList.add('disabled');
+                micIcon.title = "语音识别初始化失败，请直接输入故事";
+                isSpeechSupported = false;
+                
+                permissionText.textContent = "语音识别初始化失败，请直接输入故事。";
+                permissionMessage.classList.add('show');
+                
+                return false;
+            }
+        }
+        
+        // 请求麦克风权限
+        async function requestMicrophonePermission() {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                permissionText.textContent = "您的浏览器不支持麦克风访问，请使用现代浏览器。";
+                permissionMessage.classList.add('show');
+                return false;
+            }
+            
+            try {
+                // 请求麦克风权限
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                
+                // 立即停止所有轨道，我们只需要权限
+                stream.getTracks().forEach(track => track.stop());
+                
+                permissionGranted = true;
+                permissionMessage.classList.remove('show');
+                console.log('麦克风权限已获得');
+                
+                return true;
+            } catch(err) {
+                console.error('获取麦克风权限失败:', err);
+                permissionGranted = false;
+                
+                let message = '无法访问麦克风。';
+                if (err.name === 'NotAllowedError') {
+                    message = '麦克风权限被拒绝。请在浏览器设置中允许麦克风访问，然后刷新页面。';
+                } else if (err.name === 'NotFoundError') {
+                    message = '未找到麦克风设备。请确保麦克风已连接。';
+                }
+                
+                permissionText.textContent = message;
+                permissionMessage.classList.add('show');
+                
+                return false;
+            }
+        }
+        
+        // 开始计时
+        function startTimer() {
+            timeLeft = 120;
+            isTimeUp = false;
+            isAutoSubmitted = false;
+            timer.textContent = formatTime(timeLeft);
+            timer.classList.remove('warning');
+            timeUpMessage.style.display = 'none';
+            timerContainer.style.display = 'block';
+            progressBarContainer.style.display = 'block';
+            progressBar.style.width = '100%';
+            
+            // 清除可能存在的旧计时器
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            
+            // 开始新计时器
+            countdownInterval = setInterval(() => {
+                timeLeft--;
+                
+                // 更新计时器显示
+                timer.textContent = formatTime(timeLeft);
+                
+                // 更新进度条
+                const progressPercent = (timeLeft / 120) * 100;
+                progressBar.style.width = `${progressPercent}%`;
+                
+                // 最后30秒警告
+                if (timeLeft <= 30) {
+                    timer.classList.add('warning');
+                }
+                
+                // 时间到
+                if (timeLeft <= 0) {
+                    timeUp();
+                }
+            }, 1000);
+        }
+        
+        // 停止计时
+        function stopTimer() {
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+            }
+            timerContainer.style.display = 'none';
+            progressBarContainer.style.display = 'none';
+        }
+        
+        // 格式化时间显示
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        // 时间到处理
+        function timeUp() {
+            isTimeUp = true;
+            stopTimer();
+            timeUpMessage.style.display = 'block';
+            timer.textContent = "00:00";
+            
+            // 停止录音
+            if (isRecording && recognition) {
+                try {
+                    recognition.stop();
+                } catch(e) {
+                    console.error('停止录音失败:', e);
+                }
+            }
+        }
+        
+        // 开始录音（主函数）
+        async function startRecording() {
+            // 检查是否支持语音识别
+            if (!isSpeechSupported) {
+                alert('您的浏览器不支持语音识别功能，请直接输入故事。');
+                return;
+            }
+            
+            // 检查权限
+            if (!permissionGranted) {
+                const granted = await requestMicrophonePermission();
+                if (!granted) {
+                    return;
+                }
+            }
+            
+            // 如果是iOS Safari，使用手动模式
+            if (isIOS && isSafari) {
+                isManualRecording = true;
+                alert('iOS Safari语音输入提示：\n1. 点击确定后开始录音\n2. 请确保麦克风权限已允许\n3. 说话时请靠近麦克风\n4. 说完后需要手动停止录音');
+            }
+            
+            // 开始计时
+            startTimer();
+            
+            // 开始录音
+            try {
+                recognition.start();
+                micIcon.classList.add('recording');
+                micIcon.innerHTML = '<i class="fas fa-stop-circle"></i>';
+                isRecording = true;
+                successMessage.style.display = 'none';
+                
+                // 隐藏错误消息
+                errorMessage.classList.remove('show');
+                
+                // 隐藏结果区域
+                resultSection.style.display = 'none';
+                
+                console.log('录音开始');
+            } catch(e) {
+                console.error('开始录音失败:', e);
+                errorText.textContent = '无法开始录音，请尝试直接输入故事。';
+                errorMessage.classList.add('show');
+                stopTimer();
+                
+                // 如果是因为权限问题，重新请求权限
+                if (e.toString().includes('permission') || e.toString().includes('allowed')) {
+                    permissionGranted = false;
+                    permissionText.textContent = '麦克风权限有问题，请重新允许权限。';
+                    permissionMessage.classList.add('show');
+                }
+            }
+        }
+        
+        // 停止录音
+        function stopRecording() {
+            if (recognition && isRecording) {
+                try {
+                    recognition.stop();
+                } catch(e) {
+                    console.error('停止录音失败:', e);
+                }
+            }
+            
+            micIcon.classList.remove('recording');
+            micIcon.innerHTML = '<i class="fas fa-microphone"></i>';
+            isRecording = false;
+            isManualRecording = false;
+            
+            // 如果不是时间到，停止计时
+            if (!isTimeUp) {
+                stopTimer();
+            }
+            
+            console.log('录音停止');
+        }
+        
+        // 麦克风点击事件
+        micIcon.addEventListener('click', function() {
+            if (micIcon.classList.contains('disabled')) {
+                alert('语音识别不可用，请直接输入故事或点击"模拟语音输入"按钮。');
+                return;
+            }
+            
+            if (!isRecording) {
+                // 开始录音
+                startRecording();
+            } else {
+                // 停止录音
+                stopRecording();
+            }
+        });
+        
+        // iOS手动录音按钮
+        startIosRecording.addEventListener('click', function() {
+            if (!isRecording) {
+                startRecording();
+            }
+        });
+        
+        // 模拟语音输入
+        simulateVoiceBtn.addEventListener('click', function() {
+            const exampleStories = [
+                "今天我讲一个岳飞的故事。岳飞是南宋时期的抗金名将，他精忠报国，带领岳家军打了很多胜仗。他妈妈在他背上刺了'精忠报国'四个字，让他永远记住要忠于国家。可惜后来他被奸臣秦桧陷害，含冤而死。岳飞的故事告诉我们，要爱国，要勇敢，还要坚持正义。",
+                "我要讲的是诸葛亮的故事。诸葛亮是三国时期蜀汉的丞相，他非常聪明。最有名的是草船借箭和空城计。刘备三顾茅庐请他出山，他帮助刘备建立了蜀汉政权。诸葛亮鞠躬尽瘁，死而后已，是忠诚和智慧的象征。",
+                "我来说说花木兰的故事。花木兰是古代的女英雄，她女扮男装，替父从军。在军队里，她英勇作战，立下了很多战功，没有人发现她是女孩子。战争结束后，她回到家乡，战友们才知道真相。花木兰的故事告诉我们，女孩子也一样勇敢坚强。",
+                "孔子是我国古代伟大的思想家和教育家。他创办私学，教了很多学生，提倡'有教无类'。孔子周游列国，传播他的思想。他的弟子把他的言行记录下来，编成了《论语》。孔子思想影响了中国两千多年。"
+            ];
+            
+            // 随机选择一个示例故事
+            const randomStory = exampleStories[Math.floor(Math.random() * exampleStories.length)];
+            
+            // 清空输入框并添加示例故事
+            voiceInput.value = randomStory;
+            
+            // 显示提示
+            successMessage.innerHTML = '<i class="fas fa-info-circle"></i> 已加载示例故事，您可以修改或直接提交评价。';
+            successMessage.style.display = 'block';
+            
+            // 3秒后隐藏提示
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+        });
+        
+        // 生成星星评价
+        function generateStars(rating, container) {
+            container.innerHTML = '';
+            for (let i = 1; i <= 3; i++) {
+                const star = document.createElement('span');
+                star.className = `star ${i <= rating ? 'filled' : ''}`;
+                star.innerHTML = '<i class="fas fa-star"></i>';
+                container.appendChild(star);
+            }
+        }
+        
+        // 生成评价和建议
+        function generateEvaluation(story, isTimeUp = false) {
+            // 根据故事内容生成评价
+            let completenessRating = 1;
+            let languageRating = 1;
+            let feedback = "";
+            
+            // 根据故事长度和内容决定评价
+            const storyLength = story.length;
+            const hasQuestionMarks = story.includes('?') || story.includes('？');
+            const hasExclamation = story.includes('!') || story.includes('！');
+            const hasDetails = story.includes('，') || story.includes(',') || story.includes('。') || story.includes('.');
+            
+            // 检查故事是否完整（是否有结尾迹象）
+            const hasEnding = story.includes('最后') || story.includes('结局') || story.includes('结尾') || 
+                              story.includes('告诉我们') || story.includes('所以说') || 
+                              story.includes('这就是') || story.includes('结束了');
+            
+            // 判断故事完整性
+            if (storyLength > 150 && hasEnding) {
+                completenessRating = 3;
+            } else if (storyLength > 80 && hasEnding) {
+                completenessRating = 2;
+            } else if (storyLength > 120) {
+                completenessRating = 2; // 故事长但可能没有明确结尾
+            }
+            
+            // 判断语言生动性
+            if (hasQuestionMarks && hasExclamation && hasDetails && storyLength > 100) {
+                languageRating = 3;
+            } else if ((hasQuestionMarks || hasExclamation) && hasDetails) {
+                languageRating = 2;
+            }
+            
+            // 针对常见历史人物增加评分
+            const historicalFigures = ['诸葛亮', '岳飞', '花木兰', '孔子', '郑和', '李白', '屈原', '曹操', '孙悟空', '唐僧'];
+            for (let figure of historicalFigures) {
+                if (story.includes(figure)) {
+                    completenessRating = Math.min(3, completenessRating + 1);
+                    languageRating = Math.min(3, languageRating + 1);
+                    break;
+                }
+            }
+            
+            // 生成反馈建议 - 根据是否时间到和故事完整性调整
+            if (isTimeUp && !hasEnding && storyLength < 100) {
+                // 时间到且故事未讲完的情况
+                feedback = "时间到了，你的故事还没讲完呢！下次可以提前规划一下，先讲最重要的部分。建议你练习时先想好故事的主要情节：开头介绍人物，中间讲1-2个重要事件，最后简单总结。这样即使时间不够，也能把核心内容讲完。";
+                completenessRating = Math.max(1, completenessRating - 1);
+            } else if (storyLength < 50) {
+                feedback = "你的故事有点简短哦，可以尝试多描述一些细节，比如历史人物做了什么、说了什么。另外，可以尝试使用一些生动的词语，让故事更精彩！";
+            } else if (isTimeUp && !hasEnding) {
+                feedback = "时间到了，你的故事很精彩但还没讲完结尾。下次可以稍微加快语速，或者提前准备好要讲的内容。一个好的故事需要有头有尾，如果时间紧张，可以简化中间部分，但一定要把开头和结尾说清楚。";
+                completenessRating = Math.max(1, completenessRating - 1);
+            } else if (completenessRating >= 2 && languageRating >= 2) {
+                feedback = "你讲的故事很完整，语言也很生动！如果能在故事中加入一些人物对话或者心理描写，会让故事更加吸引人。继续保持，你是个讲故事的小能手！";
+            } else if (completenessRating >= 2) {
+                feedback = "故事讲得很完整，有开头有结尾，很好！如果能在故事中使用一些比喻或者形容词，比如'英勇的岳飞'、'聪明的诸葛亮'，会让故事更加生动有趣。";
+            } else if (languageRating >= 2) {
+                feedback = "你的语言很生动，用了不少有趣的词语！不过故事可以更完整一些，记得要交代清楚时间、地点、人物和事件经过。试试看把故事的经过讲得更详细一点。";
+            } else {
+                feedback = "你已经开始讲故事了，这很棒！建议你可以先想好故事的顺序：开头介绍人物，中间讲主要事件，最后说结果或启示。另外，多用一些形容词会让故事更好听哦！";
+            }
+            
+            return { completenessRating, languageRating, feedback };
+        }
+        
+        // 提交故事
+        function submitStory() {
+            const story = voiceInput.value.trim();
+            
+            if (!story) {
+                alert('请先输入或讲述一个历史人物故事！');
+                return;
+            }
+            
+            // 停止计时和录音
+            stopTimer();
+            if (isRecording) {
+                stopRecording();
+            }
+            
+            // 显示成功消息
+            successMessage.style.display = 'block';
+            
+            // 模拟处理时间
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+                
+                // 生成评价
+                const evaluation = generateEvaluation(story, isTimeUp);
+                
+                // 显示评价
+                generateStars(evaluation.completenessRating, completenessStars);
+                generateStars(evaluation.languageRating, languageStars);
+                feedbackText.textContent = evaluation.feedback;
+                
+                // 显示结果区域
+                resultSection.style.display = 'block';
+                
+                // 滚动到结果区域
+                resultSection.scrollIntoView({ behavior: 'smooth' });
+            }, 1500);
+        }
+        
+        // 提交按钮点击事件
+        submitBtn.addEventListener('click', submitStory);
+        
+        // 重置按钮点击事件
+        resetBtn.addEventListener('click', function() {
+            voiceInput.value = '';
+            resultSection.style.display = 'none';
+            successMessage.style.display = 'none';
+            timeUpMessage.style.display = 'none';
+            errorMessage.classList.remove('show');
+            isTimeUp = false;
+            isAutoSubmitted = false;
+            
+            // 停止计时和录音
+            stopTimer();
+            if (isRecording) {
+                stopRecording();
+            }
+            
+            // 重新聚焦到输入框
+            voiceInput.focus();
+        });
+        
+        // 页面加载时初始化
+        window.addEventListener('DOMContentLoaded', function() {
+            // 检测设备和浏览器
+            detectDeviceAndBrowser();
+            
+            // 检查浏览器兼容性
+            checkBrowserCompatibility();
+            
+            // 初始化语音识别
+            if (isSpeechSupported) {
+                initSpeechRecognition();
+            }
+            
+            // 设置一个示例故事
+            voiceInput.value = "今天我讲一个岳飞的故事。岳飞是南宋时期的抗金名将，他精忠报国，带领岳家军打了很多胜仗。他妈妈在他背上刺了'精忠报国'四个字，让他永远记住要忠于国家。可惜后来他被奸臣秦桧陷害，含冤而死。岳飞的故事告诉我们，要爱国，要勇敢，还要坚持正义。";
+            
+            // 尝试预请求麦克风权限（在用户交互前）
+            // 注意：某些浏览器可能不允许在用户交互前请求权限
+            // 所以我们只在页面加载时准备，实际权限请求在第一次点击时进行
+            console.log('页面加载完成，设备:', { isIOS, isChrome, isSafari });
+        });
+    </script>
+</body>
+</html>
